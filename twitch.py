@@ -45,11 +45,13 @@ if __name__ == '__main__':
     signal.signal(signal.SIGINT, signal_handler)
     running = False
     counter = 0
+    time2 = time.time()
     name = getName()
     if not os.path.exists(name):
         os.makedirs(name)
     while(True):
-        if not isOnline(name):
+    	online = isOnline(name)
+        if not online:
             os.chdir(name)
             start = time.strftime("%d-%m-%H-%M")
             size = sum(os.path.getsize(f) for f in os.listdir('.') if os.path.isfile(f))
@@ -69,12 +71,14 @@ if __name__ == '__main__':
             else:
                 running = False
             os.chdir('..')
-        elif isOnline(name) == 1:
+        elif online == 1:
             print 'not online'
         else:
             print 'not strimmer'
             sys.exit()
-        time.sleep(60*10)
+        time.sleep(5*10)
+        #print time.time() - time2
+        time2 = time.time()
             
     
 
